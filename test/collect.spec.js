@@ -137,6 +137,15 @@ describe('collect.js', function () {
         expect(result, 'to equal', ["0-553-21311-3", "0-395-19395-8", "0-201-61622-X"]);
     });
 
+    describe('reqular expressions can be used for query parts', function () {
+        var result = collect('store', /book|bicycle/, 'price', store);
+        expect(result, 'to equal', [8.95, 12.99, 8.99, 22.99, 33.68, 19.95]);
+    });
+    it('query parts can be regular expressions matching a fields', function () {
+        var result = collect('store..price', store);
+        expect(result, 'to equal', [8.95, 12.99, 8.99, 22.99, 33.68, 19.95]);
+    });
+
     describe('having', function () {
         it('returns entries where the given query has one or more matches', function () {
             var result = collect('..book', store).filter(function (book) {
