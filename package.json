@@ -6,6 +6,6 @@
     "private": true,
     "devDependencies": {
         "mocha": "=1.9.0",
-        "unexpected": "*"
+        "unexpected": "=0.0.4"
     }
 }

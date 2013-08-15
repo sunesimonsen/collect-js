@@ -2,45 +2,58 @@
 var expect = require('unexpected');
 var collect = require(__dirname + '/../lib/collect.js');
 
-describe('collect.js', function () {
-    var store = {
-        store: {
-            book: [
-                { category: "reference",
-                  author: "Nigel Rees",
-                  title: "Sayings of the Century",
-                  price: 8.95
-                },
-                { category: "fiction",
-                  author: "Evelyn Waugh",
-                  title: "Sword of Honour",
-                  price: 12.99
-                },
-                { category: "fiction",
-                  author: "Herman Melville",
-                  title: "Moby Dick",
-                  isbn: "0-553-21311-3",
-                  price: 8.99
-                },
-                { category: "fiction",
-                  author: "J. R. R. Tolkien",
-                  title: "The Lord of the Rings",
-                  isbn: "0-395-19395-8",
-                  price: 22.99
-                },
-                { category: "programming",
-                  author: ["Andrew Hunt", "David Thomas"],
-                  title: "The Pragmatic Programmer: From Journeyman to Master",
-                  isbn: "0-201-61622-X",
-                  price: 33.68
-                }
-            ],
-            bicycle: {
-                color: "red",
-                price: 19.95
+var store = {
+    store: {
+        book: [
+            { category: "reference",
+              author: "Nigel Rees",
+              title: "Sayings of the Century",
+              price: 8.95
+            },
+            { category: "fiction",
+              author: "Evelyn Waugh",
+              title: "Sword of Honour",
+              price: 12.99,
+              tags: [
+                  "fiction"
+              ]
+            },
+            { category: "fiction",
+              author: "Herman Melville",
+              title: "Moby Dick",
+              isbn: "0-553-21311-3",
+              price: 8.99
+            },
+            { category: "fiction",
+              author: "J. R. R. Tolkien",
+              title: "The Lord of the Rings",
+              isbn: "0-395-19395-8",
+              price: 22.99,
+              tags: [
+                  "fiction",
+                  "adventure"
+              ]
+            },
+            { category: "programming",
+              author: ["Andrew Hunt", "David Thomas"],
+              title: "The Pragmatic Programmer: From Journeyman to Master",
+              isbn: "0-201-61622-X",
+              price: 33.68,
+              tags: [
+                  "programming",
+                  "apprenticeship",
+                  "best practices"
+              ]
             }
+        ],
+        bicycle: {
+            color: "red",
+            price: 19.95
         }
-    };
+    }
+};
+
+describe('collect.js', function () {
 
     describe('basic querying', function () {
         it('returns an empty list when query is null', function () {
@@ -119,6 +132,11 @@ describe('collect.js', function () {
         });
     });
 
+    it('accepts a variable number of query parts', function () {
+        var result = collect('store', 'book', 'isbn', store);
+        expect(result, 'to equal', ["0-553-21311-3", "0-395-19395-8", "0-201-61622-X"]);
+    });
+
     describe('having', function () {
         it('returns entries where the given query has one or more matches', function () {
             var result = collect('..book', store).filter(function (book) {
@@ -174,6 +192,25 @@ describe('collect.js', function () {
             });
             expect(result, 'to equal', [
                 store.store.book[4]
+            ]);
+        });
+    });
+
+    describe('unique', function () {
+        it('returns the unique list of book tags', function () {
+            var result = collect('..book.tags', store).reduce(function (tags, tag) {
+                if (tags.indexOf(tag) === -1) {
+                    tags.push(tag);
+                }
+                return tags;
+            }, []);
+
+            expect(result, 'to equal', [
+                "fiction",
+                "adventure",
+                "programming",
+                "apprenticeship",
+                "best practices"
             ]);
         });
     });
