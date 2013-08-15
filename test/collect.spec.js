@@ -98,7 +98,7 @@ describe('collect.js', function () {
             expect(result, 'to equal', ["0-553-21311-3", "0-395-19395-8", "0-201-61622-X"]);
         });
 
-        it('returns all matches for query: ..price', function () {
+        it('returns all matches for query: store..price', function () {
             var result = collect('store..price', store);
             expect(result, 'to equal', [8.95, 12.99, 8.99, 22.99, 33.68, 19.95]);
         });
