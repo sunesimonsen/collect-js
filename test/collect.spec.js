@@ -144,16 +144,16 @@ describe('collect.js', function () {
         });
     });
 
-    describe('contains', function () {
+    describe('contains using indexOf', function () {
         it('returns true if the results contains the given object', function () {
             var authors = collect('..author', store);
-            expect(authors, 'to contain', 'David Thomas');
-            expect(authors, 'to contain', 'J. R. R. Tolkien');
+            expect(authors.indexOf('David Thomas'), 'to not be', -1);
+            expect(authors.indexOf('J. R. R. Tolkien'), 'to not be', -1);
         });
 
         it('returns false if the results does not contain the given object', function () {
             var authors = collect('..author', store);
-            expect(authors, 'to not contain', 'Robert C. Martin');
+            expect(authors.indexOf('Robert C. Martin'), 'to be', -1);
         });
     });
 
