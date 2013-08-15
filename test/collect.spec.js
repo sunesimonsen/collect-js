@@ -1,11 +1,11 @@
 /*global describe, it*/
-var expect = require('expect.js');
+var expect = require('unexpected');
 var collect = require(__dirname + '/../lib/collect.js');
 
 describe('collect.js', function () {
     var store = {
         store: {
-            book: [ 
+            book: [
                 { category: "reference",
                   author: "Nigel Rees",
                   title: "Sayings of the Century",
@@ -45,77 +45,77 @@ describe('collect.js', function () {
     describe('basic querying', function () {
         it('returns an empty list when query is null', function () {
             var result = collect(null, store);
-            expect(result).to.have.length(0);
+            expect(result, 'to be empty');
         });
 
         it('returns an empty list for query: foo.bar', function () {
             var result = collect('foo.bar', store);
-            expect(result).to.have.length(0);
+            expect(result, 'to be empty');
         });
 
         it('returns an empty list for query: ..bar', function () {
             var result = collect('foo.bar', store);
-            expect(result).to.have.length(0);
+            expect(result, 'to be empty');
         });
 
         it('returns all matches for query: store', function () {
             var result = collect('store', store);
-            expect(result).to.eql([store.store]);
+            expect(result, 'to equal', [store.store]);
         });
 
         it('returns all matches for query: .store', function () {
             var result = collect('.store', store);
-            expect(result).to.eql([store.store]);
+            expect(result, 'to equal', [store.store]);
         });
 
         it('returns all matches for query: store.book', function () {
             var result = collect('store.book', store);
-            expect(result).to.eql(store.store.book);
+            expect(result, 'to equal', store.store.book);
         });
 
         it('returns all matches for query: store.bicycle', function () {
             var result = collect('store.bicycle', store);
-            expect(result).to.eql([store.store.bicycle]);
+            expect(result, 'to equal', [store.store.bicycle]);
         });
 
         it('returns all matches for query: store.book.isbn', function () {
             var result = collect('store.book.isbn', store);
-            expect(result).to.eql(["0-553-21311-3", "0-395-19395-8", "0-201-61622-X"]);
+            expect(result, 'to equal', ["0-553-21311-3", "0-395-19395-8", "0-201-61622-X"]);
         });
 
         it('returns all matches for query: store..isbn', function () {
             var result = collect('store..isbn', store);
-            expect(result).to.eql(["0-553-21311-3", "0-395-19395-8", "0-201-61622-X"]);
+            expect(result, 'to equal', ["0-553-21311-3", "0-395-19395-8", "0-201-61622-X"]);
         });
-        
+
         it('returns all matches for query: ..isbn', function () {
             var result = collect('store..isbn', store);
-            expect(result).to.eql(["0-553-21311-3", "0-395-19395-8", "0-201-61622-X"]);
+            expect(result, 'to equal', ["0-553-21311-3", "0-395-19395-8", "0-201-61622-X"]);
         });
 
         it('returns all matches for query: ..book.isbn', function () {
             var result = collect('..book.isbn', store);
-            expect(result).to.eql(["0-553-21311-3", "0-395-19395-8", "0-201-61622-X"]);
+            expect(result, 'to equal', ["0-553-21311-3", "0-395-19395-8", "0-201-61622-X"]);
         });
 
         it('returns all matches for query: ..price', function () {
             var result = collect('store..price', store);
-            expect(result).to.eql([8.95, 12.99, 8.99, 22.99, 33.68, 19.95]);
+            expect(result, 'to equal', [8.95, 12.99, 8.99, 22.99, 33.68, 19.95]);
         });
 
         it('returns all matches for query: ..book', function () {
             var result = collect('..book', store);
-            expect(result).to.eql(store.store.book);
+            expect(result, 'to equal', store.store.book);
         });
 
         it('returns all matches for query: ..book.price', function () {
             var result = collect('..book.price', store);
-            expect(result).to.eql([8.95, 12.99, 8.99, 22.99, 33.68]);
+            expect(result, 'to equal', [8.95, 12.99, 8.99, 22.99, 33.68]);
         });
 
         it('returns all matches for query: ..store', function () {
             var result = collect('..store', store);
-            expect(result).to.eql([store.store]);
+            expect(result, 'to equal', [store.store]);
         });
     });
 
@@ -124,7 +124,7 @@ describe('collect.js', function () {
             var result = collect('..book', store).filter(function (book) {
                 return collect('isbn', book).length > 0;
             });
-            expect(result).to.eql([
+            expect(result, 'to equal', [
                 store.store.book[2],
                 store.store.book[3],
                 store.store.book[4]
@@ -137,7 +137,7 @@ describe('collect.js', function () {
             var result = collect('..book', store).filter(function (book) {
                 return collect('isbn', book).length === 0;
             });
-            expect(result).to.eql([
+            expect(result, 'to equal', [
                 store.store.book[0],
                 store.store.book[1]
             ]);
@@ -147,13 +147,13 @@ describe('collect.js', function () {
     describe('contains', function () {
         it('returns true if the results contains the given object', function () {
             var authors = collect('..author', store);
-            expect(authors.indexOf("David Thomas")).to.not.be(-1);
-            expect(authors.indexOf("J. R. R. Tolkien")).to.not.be(-1);
+            expect(authors, 'to contain', 'David Thomas');
+            expect(authors, 'to contain', 'J. R. R. Tolkien');
         });
 
         it('returns false if the results does not contain the given object', function () {
             var authors = collect('..author', store);
-            expect(authors.indexOf("Robert C. Martin")).to.be(-1);
+            expect(authors, 'to not contain', 'Robert C. Martin');
         });
     });
 
@@ -162,7 +162,7 @@ describe('collect.js', function () {
             var result = collect('..book', store).filter(function (book) {
                 return book.price < 10;
             });
-            expect(result).to.eql([
+            expect(result, 'to equal', [
                 store.store.book[0],
                 store.store.book[2]
             ]);
@@ -172,7 +172,7 @@ describe('collect.js', function () {
             var result = collect('..book', store).filter(function (book) {
                 return collect("author", book).length > 1;
             });
-            expect(result).to.eql([
+            expect(result, 'to equal', [
                 store.store.book[4]
             ]);
         });
