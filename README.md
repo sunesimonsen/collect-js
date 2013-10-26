@@ -6,9 +6,22 @@ A JavaScript library for collecting data from tree data structures.
 
 ## Install
 
+You can install the collect-js using npm the following way:
+
+    npm install collect-js
+
+You can require the Factory.js using require.js the following way:
+``` js
+define('path/to/collect-js, function (collect) {
+    // define you're module that uses the collect function
+});
 ```
-npm install collect-js
-```
+
+If you choose to use the library directly in the browser the
+```collect``` function will be installed in the global namespace under
+the name:
+
+    weknowhow.collect
 
 ## Usage
 
