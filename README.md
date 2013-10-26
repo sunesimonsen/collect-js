@@ -1,6 +1,6 @@
 # Collect.js
 
-A library for collecting data from tree data structures.
+A JavaScript library for collecting data from tree data structures.
 
 ## Usage
 
