@@ -102,7 +102,7 @@ describe('collect.js', function () {
         });
 
         it('returns all matches for query: ..isbn', function () {
-            var result = collect('store..isbn', store);
+            var result = collect('..isbn', store);
             expect(result, 'to equal', ["0-553-21311-3", "0-395-19395-8", "0-201-61622-X"]);
         });
 
@@ -138,12 +138,10 @@ describe('collect.js', function () {
     });
 
     describe('reqular expressions can be used for query parts', function () {
-        var result = collect('store', /book|bicycle/, 'price', store);
-        expect(result, 'to equal', [8.95, 12.99, 8.99, 22.99, 33.68, 19.95]);
-    });
-    it('query parts can be regular expressions matching a fields', function () {
-        var result = collect('store..price', store);
-        expect(result, 'to equal', [8.95, 12.99, 8.99, 22.99, 33.68, 19.95]);
+        it('returns all matches for query: store.book.price and store.bicycle.price', function () {
+            var result = collect('store', /book|bicycle/, 'price', store);
+            expect(result, 'to equal', [8.95, 12.99, 8.99, 22.99, 33.68, 19.95]);
+        });
     });
 
     describe('having', function () {
@@ -220,6 +218,21 @@ describe('collect.js', function () {
                 "programming",
                 "apprenticeship",
                 "best practices"
+            ]);
+        });
+
+        it('returns the unique list of book categories', function () {
+            var result = collect('..book.category', store).reduce(function (categories, category) {
+                if (categories.indexOf(category) === -1) {
+                    categories.push(category);
+                }
+                return categories;
+            }, []);
+
+            expect(result, 'to equal', [
+                'reference',
+                'fiction',
+                'programming'
             ]);
         });
     });

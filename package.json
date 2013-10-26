@@ -3,7 +3,9 @@
     "version": "0.0.1",
     "author": "Sune Sloth Simonsen <sune@we-knowhow.dk>",
     "dependencies": {},
-    "private": true,
+    "scripts": {
+        "test": "mocha"
+    },
     "devDependencies": {
         "mocha": "=1.9.0",
         "unexpected": "=0.0.4"
