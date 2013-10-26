@@ -2,6 +2,8 @@
 
 A JavaScript library for collecting data from tree data structures.
 
+[![Build Status](https://travis-ci.org/sunesimonsen/collect-js.png?branch=master)](https://travis-ci.org/sunesimonsen/collect-js)
+
 ## Install
 
 ```
