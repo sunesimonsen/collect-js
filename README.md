@@ -12,7 +12,7 @@ You can install the collect-js using npm the following way:
 
 You can require the Factory.js using require.js the following way:
 ``` js
-define('path/to/collect-js, function (collect) {
+define('path/to/collect-js', function (collect) {
     // define you're module that uses the collect function
 });
 ```
