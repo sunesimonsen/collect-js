@@ -2,6 +2,12 @@
 
 A JavaScript library for collecting data from tree data structures.
 
+## Install
+
+```
+npm install collect-js
+```
+
 ## Usage
 
 Given the following test data the examples below shows how the library can be used.
