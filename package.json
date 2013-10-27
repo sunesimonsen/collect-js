@@ -4,6 +4,7 @@
   "author": "Sune Sloth Simonsen <sune@we-knowhow.dk>",
   "description": "A JavaScript library for collecting data from tree data structures",
   "dependencies": {},
+  "main": "./lib/collect.js",
   "scripts": {
     "test": "mocha"
   },
