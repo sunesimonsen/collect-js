@@ -61,8 +61,18 @@ describe('collect.js', function () {
             expect(result, 'to be empty');
         });
 
+        it('returns an empty list for query: foo', function () {
+            var result = collect('foo', store);
+            expect(result, 'to be empty');
+        });
+
         it('returns an empty list for query: foo.bar', function () {
             var result = collect('foo.bar', store);
+            expect(result, 'to be empty');
+        });
+
+        it('returns an empty list for query: /foo/', function () {
+            var result = collect(/foo/, store);
             expect(result, 'to be empty');
         });
 
