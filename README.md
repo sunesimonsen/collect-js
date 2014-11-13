@@ -142,7 +142,7 @@ expect(collect('store..book.price', store), 'to equal', [
 ### Collecting the price of all books and bicycles in the store
 
 ```js
-expect(collect('store', /book|bicycle/, 'price'), 'to equal', [
+expect(collect('store', /book|bicycle/, 'price', store), 'to equal', [
   8.95, 12.99, 8.99, 22.99, 33.68
 ]);
 ```
